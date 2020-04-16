@@ -11,8 +11,6 @@ public class LinkListOperation {
 
     /**
      * 单链表反转
-     * 思路：
-     * 1，首先判断当前节点是否为空，如果为空，则直接返回
      */
     public static Node reverse(Node node) {
         Node next = null;
@@ -31,7 +29,25 @@ public class LinkListOperation {
         return node;
     }
 
-
+    public static Node reverseInPair(Node current) {
+        if(current == null || current.getNext() == null){
+            return current;
+        }
+        Node head = current.getNext();
+        Node preNode = null;
+        while (current != null && current.getNext() != null){
+            Node next = current.getNext();
+            Node next2 =  next.getNext();
+            next.setNext(current);
+            current.setNext(next2);
+            if(preNode != null){
+                preNode.setNext(next);
+            }
+            preNode = current;
+            current = next2;
+        }
+        return head;
+    }
 
     public static void main(String[] args) {
        testLinkReverse();
@@ -43,6 +59,21 @@ public class LinkListOperation {
         if (reNode == null) {
             System.out.println("=====right");
         }
+        printNode(reverse(createNode()));
+        printNode(reverseInPair(createNode()));
+    }
+
+    private static void printNode(Node node){
+        Node next = node.getNext();
+        System.out.println(node.getData());
+        while (next != null) {
+            System.out.println(next.getData());
+            next = next.getNext();
+        }
+    }
+
+
+    private static Node createNode(){
         Node first = new Node();
         first.setData(1);
         Node second = new Node();
@@ -64,15 +95,7 @@ public class LinkListOperation {
         forthNode.setNext(fiveNode);
         fiveNode.setNext(sixNode);
         sixNode.setNext(sevenNode);
-
-        Node reNode2 = reverse(first);
-
-        Node next = reNode2.getNext();
-        System.out.println(reNode2.getData());
-        while (next != null) {
-            System.out.println(next.getData());
-            next = next.getNext();
-        }
+        return first;
     }
 
 
