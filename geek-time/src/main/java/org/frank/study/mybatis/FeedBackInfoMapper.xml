@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.frank.study.mybatis.FeedBackInfoMapper">
+    <resultMap id="feedbackInfo" type="org.frank.study.mybatis.FeedBackInfo">
+        <id column="id" property="id"></id>
+        <result column="create_time" property="createTime"></result>
+        <result column="update_time" property="updateTime"></result>
+        <result column="is_deleted" property="isDeleted"></result>
+
+        <result column="check_and_accept" property="checkAndAccept"></result>
+        <result column="satisfaction" property="satisfaction"></result>
+        <result column="work_order_id" property="workOrderId"></result>
+        <result column="remark" property="remark"></result>
+        <result column="remark_for_satisfaction" property="remarkForSatisfaction"></result>
+
+    </resultMap>
+    <insert id="insert">
+        insert into work_order_feedback(
+        create_time,update_time,is_deleted,check_and_accept,satisfaction,work_order_id,remark,remark_for_satisfaction)
+        values(#{createTime},#{updateTime}, 0,#{checkAndAccept},#{satisfaction},#{workOrderId},#{remark},#{remarkForSatisfaction})
+    </insert>
+
+    <update id="deleteById">
+        update work_order_feedback
+        set is_deleted = 1
+        where id = #{id}
+    </update>
+
+    <select id="getById" resultMap="feedbackInfo">
+        select * from work_order_feedback where id = #{id} and  is_deleted = 0
+    </select>
+
+    <select id="listBy" parameterType="org.frank.study.mybatis.FeedBackInfoQuery" resultMap="feedbackInfo">
+        select * from work_order_feedback where is_deleted = 0
+        <if test="workOrderId != null">
+            and work_order_id = #{workOrderId}
+        </if>
+    </select>
+</mapper>
