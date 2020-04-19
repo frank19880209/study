@@ -1,6 +1,8 @@
 package com.frank.study.algorithm;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -104,10 +106,117 @@ public class LinkListOperation {
         return false;
     }
 
+    /**
+     *
+     * //todo:需要测试
+     * 合并两个有序链表
+     *
+     * 将两个升序链表合并为一个新的升序链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的。 
+     * 示例：
+     *
+     * 输入：1->2->4, 1->3->4
+     * 输出：1->1->2->3->4->4
+     *
+     * 来源：力扣（LeetCode）
+     * 链接：https://leetcode-cn.com/problems/merge-two-sorted-lists
+     * @param header1
+     * @param header2
+     * @return
+     */
+    private static Node mergeTwoLists(Node header1,Node header2){
+        if(header1 == null){
+            return header2;
+        }
+        if(header2 == null){
+            return header1;
+        }
+        boolean returnFlag = true;
+        Node next1 = header1;
+        Node next2 = header2;
+        Node currentNode = null;
+        Node currentNode2 = null;
+        if((int)header1.getData() > (int)header2.getData()){
+            next1 = header2;
+            next2 = header1;
+            returnFlag = false;
+        }
+        Node preNode = null;
+        while (next1 != null && next2 != null){
+            if((int)next1.getData() <= (int)next2.getData()){
+                if(currentNode == null){
+                    currentNode = next1;
+                }
+                if((int)next1.getData() == (int)next2.getData()){
+                    currentNode2 = next2.getNext();
+                    Node currentNext = currentNode.getNext();
+                    currentNode.setNext(next2);
+                    currentNode.getNext().setNext(currentNext);
+                    next2 = currentNode2;
+                    next1 = currentNext;
+                    preNode = currentNode;
+                }else{
+                    preNode = next1;
+                    next1 = next1.getNext();
+                    currentNode = next1;
+                }
+            }else{
+                preNode.setNext(mergeTwoLists(currentNode,next2));
+                System.out.println("====");
+                next1 = next1.getNext();
+            }
+        }
+        return returnFlag?header1:header2;
+    }
+
     public static void main(String[] args) {
        testLinkReverse();
        testLinkReverseInPair();
        testLoopLink();
+       testMergeTwoLists();
+    }
+
+    private static void testMergeTwoLists(){
+        Node firstNode = createNode();
+        Node secondNode = new Node();
+        secondNode.setData(5);
+        Node third = new Node();
+        third.setData(7);
+        secondNode.setNext(third);
+        mergeTwoLists(firstNode,secondNode);
+
+        firstNode = createNode();
+        secondNode = new Node();
+        secondNode.setData(5);
+        third = new Node();
+        third.setData(7);
+        secondNode.setNext(third);
+        mergeTwoLists(secondNode,firstNode);
+
+        Node firstNode1 = new Node();
+        firstNode1.setData(1);
+        Node firstNode2 = new Node();
+        firstNode2.setData(2);
+        Node firstNode3 = new Node();
+        firstNode3.setData(4);
+        firstNode2.setNext(firstNode3);
+        firstNode1.setNext(firstNode2);
+
+        Node secondNode1 = new Node();
+        secondNode1.setData(1);
+        Node secondNode2 = new Node();
+        secondNode2.setData(3);
+        Node secondNode3 = new Node();
+        secondNode3.setData(4);
+        secondNode2.setNext(secondNode3);
+        secondNode1.setNext(secondNode2);
+        mergeTwoLists(firstNode1,secondNode1);
+
+
+        Node node1 = new Node();
+        node1.setData(2);
+        Node node2 = new Node();
+        node2.setData(1);
+        mergeTwoLists(node1,node2);
     }
 
 
