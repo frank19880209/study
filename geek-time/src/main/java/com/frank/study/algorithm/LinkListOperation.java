@@ -1,8 +1,8 @@
 package com.frank.study.algorithm;
 
-import java.util.ArrayList;
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -114,8 +114,8 @@ public class LinkListOperation {
      * 将两个升序链表合并为一个新的升序链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的。 
      * 示例：
      *
-     * 输入：1->2->4, 1->3->4
-     * 输出：1->1->2->3->4->4
+     * 输入：1,2,4, 1,3,4
+     * 输出：1,1,2,3,4,4
      *
      * 来源：力扣（LeetCode）
      * 链接：https://leetcode-cn.com/problems/merge-two-sorted-lists
@@ -130,42 +130,39 @@ public class LinkListOperation {
         if(header2 == null){
             return header1;
         }
-        boolean returnFlag = true;
-        Node next1 = header1;
-        Node next2 = header2;
-        Node currentNode = null;
-        Node currentNode2 = null;
-        if((int)header1.getData() > (int)header2.getData()){
-            next1 = header2;
-            next2 = header1;
-            returnFlag = false;
-        }
-        Node preNode = null;
-        while (next1 != null && next2 != null){
-            if((int)next1.getData() <= (int)next2.getData()){
-                if(currentNode == null){
-                    currentNode = next1;
+        Node resultNode = new Node();
+        resultNode.setData(-1);
+        Node currentNode = resultNode;
+        while (header1 != null && header2 != null){
+            if((int)header1.getData()< (int)header2.getData() ){
+                currentNode.setNext(header1);
+                header1 = header1.getNext();
+                if(header1 == null){
+                    currentNode.getNext().setNext(header2);
+                    break;
                 }
-                if((int)next1.getData() == (int)next2.getData()){
-                    currentNode2 = next2.getNext();
-                    Node currentNext = currentNode.getNext();
-                    currentNode.setNext(next2);
-                    currentNode.getNext().setNext(currentNext);
-                    next2 = currentNode2;
-                    next1 = currentNext;
-                    preNode = currentNode;
-                }else{
-                    preNode = next1;
-                    next1 = next1.getNext();
-                    currentNode = next1;
+                currentNode = currentNode.getNext();
+            }else if((int)header1.getData()== (int)header2.getData() ){
+                currentNode.setNext(header1);
+                header1 = header1.getNext();
+                currentNode.getNext().setNext(header2);
+                header2 = header2.getNext();
+                if(header2 == null){
+                    currentNode.getNext().getNext().setNext(header1);
+                    break;
                 }
+                currentNode = currentNode.getNext().getNext();
             }else{
-                preNode.setNext(mergeTwoLists(currentNode,next2));
-                System.out.println("====");
-                next1 = next1.getNext();
+                currentNode.setNext(header2);
+                header2 = header2.getNext();
+                if(header2 == null){
+                    currentNode.getNext().setNext(header1);
+                    break;
+                }
+                currentNode = currentNode.getNext();
             }
         }
-        return returnFlag?header1:header2;
+        return resultNode.getNext();
     }
 
     public static void main(String[] args) {
@@ -176,47 +173,26 @@ public class LinkListOperation {
     }
 
     private static void testMergeTwoLists(){
-        Node firstNode = createNode();
-        Node secondNode = new Node();
-        secondNode.setData(5);
-        Node third = new Node();
-        third.setData(7);
-        secondNode.setNext(third);
+        Node firstNode = createNodeByStr("1,2,3,4,5,6,7");
+        Node secondNode = createNodeByStr("5,7");
         mergeTwoLists(firstNode,secondNode);
-
-        firstNode = createNode();
-        secondNode = new Node();
-        secondNode.setData(5);
-        third = new Node();
-        third.setData(7);
-        secondNode.setNext(third);
+        firstNode = createNodeByStr("1,2,3,4,5,6,7");
+        secondNode = createNodeByStr("5,7");
         mergeTwoLists(secondNode,firstNode);
 
-        Node firstNode1 = new Node();
-        firstNode1.setData(1);
-        Node firstNode2 = new Node();
-        firstNode2.setData(2);
-        Node firstNode3 = new Node();
-        firstNode3.setData(4);
-        firstNode2.setNext(firstNode3);
-        firstNode1.setNext(firstNode2);
-
-        Node secondNode1 = new Node();
-        secondNode1.setData(1);
-        Node secondNode2 = new Node();
-        secondNode2.setData(3);
-        Node secondNode3 = new Node();
-        secondNode3.setData(4);
-        secondNode2.setNext(secondNode3);
-        secondNode1.setNext(secondNode2);
+        Node firstNode1 =  createNodeByStr("1,2,4");
+        Node secondNode1 = createNodeByStr("1,3,4");
         mergeTwoLists(firstNode1,secondNode1);
 
 
-        Node node1 = new Node();
-        node1.setData(2);
-        Node node2 = new Node();
-        node2.setData(1);
+        Node node1 = createNodeByStr("2");
+        Node node2 = createNodeByStr("1");
         mergeTwoLists(node1,node2);
+
+        Node nodeA = createNodeByStr("-9,-5,-3,-2,-2,3,7");
+        Node nodeB = createNodeByStr("-10,-8,-4,-3,-1,3");
+
+        mergeTwoLists(nodeA,nodeB);
     }
 
 
@@ -271,6 +247,7 @@ public class LinkListOperation {
      * @return 返回header节点
      */
     private static Node createLoopLink(){
+
         Node first = new Node();
         first.setData(1);
         Node second = new Node();
@@ -308,12 +285,28 @@ public class LinkListOperation {
     }
 
 
+    private static Node createNodeByStr(String s){
+        if(StringUtils.isBlank(s)){
+            return null;
+        }
+        String[]sarr = s.split(",");
+        Node header = new Node();
+        Node current = header;
+        for (String s1 : sarr) {
+            Node node = new Node();
+            node.setData(Integer.valueOf(s1));
+            current.setNext(node);
+            current = current.getNext();
+        }
+        return header.getNext();
+    }
+
     /**
      * 创建单链表
      * @return 返回header节点
      */
     private static Node createNode(){
-        Node first = new Node();
+        Node first = createNodeByStr("1,-2,3,4,5,6,7");
         first.setData(1);
         Node second = new Node();
         second.setData(2);
@@ -339,7 +332,7 @@ public class LinkListOperation {
 
 
     private static class Node {
-        private Object data;
+        private Integer data;
         private Node next;
 
 
@@ -347,7 +340,7 @@ public class LinkListOperation {
             return data;
         }
 
-        public void setData(Object data) {
+        public void setData(Integer data) {
             this.data = data;
         }
 
