@@ -108,7 +108,6 @@ public class LinkListOperation {
 
     /**
      *
-     * //todo:需要测试
      * 合并两个有序链表
      *
      * 将两个升序链表合并为一个新的升序链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的。 
@@ -124,11 +123,8 @@ public class LinkListOperation {
      * @return
      */
     private static Node mergeTwoLists(Node header1,Node header2){
-        if(header1 == null){
-            return header2;
-        }
-        if(header2 == null){
-            return header1;
+        if(header1 == null || header2 == null){
+            return header1 == null?header2:header1;
         }
         Node resultNode = new Node();
         resultNode.setData(-1);
