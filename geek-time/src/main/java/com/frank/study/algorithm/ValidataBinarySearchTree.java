@@ -17,35 +17,35 @@ public class ValidataBinarySearchTree {
         System.out.println(isValidBST(root));
         root = stringToTreeNode("[5,1,4,null,null,3,6]");
         System.out.println(isValidBST(root));
-        root = stringToTreeNode("[10,5,15,null,null,6,20]");
-        System.out.println(isValidBST(root));
+        TreeNode root2 = stringToTreeNode("[10,5,15,null,null,6,20]");
+        System.out.println(isValidBST(root2));
+        TreeNode root3 = stringToTreeNode("[3,1,5,0,2,4,6,null,null,null,3]");
+        System.out.println(isValidBST(root3));
+        TreeNode root4 = stringToTreeNode("[3,2,null,1,-2147483648]");
+        System.out.println(isValidBST(root4));
+        TreeNode root5 = stringToTreeNode("[3,1,5,0,2,4,6]");
+        System.out.println(isValidBST(root5));
     }
 
     public static boolean isValidBST(TreeNode root) {
         if(root == null){
             return false;
         }
-        return recursor(root.left,root.val,root.val,true) && recursor(root.right,root.val,root.val,false);
+        return  recursor(root.left,root.val,null) && recursor(root.right,null,root.val);
     }
 
 
-    public static boolean recursor(TreeNode node,Integer leftMax,Integer rightMin,Boolean ifLeft){
-        if(node != null){
-            if(ifLeft){
-                if(node.val < leftMax){
-                    return recursor(node.left,node.val,node.val,true) && recursor(node.right,node.val,node.val,false);
-                }else{
-                    return false;
-                }
-            }else {
-                if(node.val > rightMin){
-                    return recursor(node.left,node.val,node.val,true) && recursor(node.right,node.val,node.val,false);
-                }else{
-                    return false;
-                }
+    public static boolean recursor(TreeNode node,Integer upperLimit,Integer downLimit){
+        if(node == null){
+            return true;
+        }
+        if( upperLimit == null || (upperLimit != null && node.val < upperLimit)){
+            if(downLimit == null || (downLimit != null && node.val > downLimit)){
+                upperLimit = node.val;
+                return  recursor(node.left,upperLimit,downLimit) && recursor(node.right,null,node.val);
             }
         }
-        return true;
+        return false;
     }
 
     public static TreeNode stringToTreeNode(String input) {
