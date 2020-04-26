@@ -25,6 +25,8 @@ public class ValidataBinarySearchTree {
         System.out.println(isValidBST(root4));
         TreeNode root5 = stringToTreeNode("[3,1,5,0,2,4,6]");
         System.out.println(isValidBST(root5));
+        TreeNode root6 = stringToTreeNode("[3,1,5,0,2,4,6,null,null,null,3]");
+        System.out.println(isValidBST(root6));
     }
 
     public static boolean isValidBST(TreeNode root) {
@@ -41,8 +43,7 @@ public class ValidataBinarySearchTree {
         }
         if( upperLimit == null || (upperLimit != null && node.val < upperLimit)){
             if(downLimit == null || (downLimit != null && node.val > downLimit)){
-                upperLimit = node.val;
-                return  recursor(node.left,upperLimit,downLimit) && recursor(node.right,null,node.val);
+                return  recursor(node.left,node.val,downLimit) && recursor(node.right,upperLimit,node.val);
             }
         }
         return false;
