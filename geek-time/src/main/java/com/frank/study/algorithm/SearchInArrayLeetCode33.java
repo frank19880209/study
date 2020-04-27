@@ -30,7 +30,7 @@ package com.frank.study.algorithm;
  * @Date: 2020/4/27 9:08
  * @Version: 1.0
  */
-public class SearchInArrayLeetCode98 {
+public class SearchInArrayLeetCode33 {
 
     public static int search(int[] nums, int target) {
         if(nums == null || nums.length == 0){
