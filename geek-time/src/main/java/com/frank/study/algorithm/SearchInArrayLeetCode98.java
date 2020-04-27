@@ -33,6 +33,9 @@ package com.frank.study.algorithm;
 public class SearchInArrayLeetCode98 {
 
     public static int search(int[] nums, int target) {
+        if(nums == null || nums.length == 0){
+            return -1;
+        }
         int left = 0;
         int right = nums.length -1;
         int mid = (right-left)/2;
@@ -49,21 +52,17 @@ public class SearchInArrayLeetCode98 {
             if(left == right || left == mid || right == mid){
                 break;
             }
-            if(nums[left] > nums[mid]){
-                if(target >nums[left]){
+            if(nums[left] < nums[mid]){
+                if(target < nums[left] || target > nums[mid]){
                     left = mid;
                 }else{
-                    if(target > nums[mid]){
-                        left = mid;
-                    }else{
-                        right = mid;
-                    }
+                    right = mid;
                 }
             }else{
-                if(target < nums[mid] && target > nums[left]){
+                if(target < nums[mid] || target > nums[left]){
                     right = mid;
                 }else{
-                   left = mid;
+                    left = mid;
                 }
             }
             mid = left+(right-left)/2;
@@ -86,5 +85,8 @@ public class SearchInArrayLeetCode98 {
         System.out.println(search(nums5,6));
         int[] nums6 = {5,1,2,3,4};
         System.out.println(search(nums6,1));
+
+        int[] nums7 = {4,5,6,7,8,1,2,3};
+        System.out.println(search(nums7,8));
     }
 }
