@@ -70,6 +70,36 @@ public class SearchInArrayLeetCode33 {
         return -1;
     }
 
+    public static int search2(int[] nums, int target,int left,int right) {
+        int mid = left+(right-left)/2;
+        if(nums[left] == target){
+            return left;
+        }
+        if(nums[mid] == target){
+            return mid;
+        }
+        if(nums[right] == target){
+            return right;
+        }
+        if(left == right || left == mid || right == mid){
+            return -1;
+        }
+        if(nums[left] < nums[mid]){
+            if(target < nums[left] || target > nums[mid]){
+                left = mid;
+            }else{
+                right = mid;
+            }
+        }else{
+            if(target < nums[mid] || target > nums[left]){
+                right = mid;
+            }else{
+                left = mid;
+            }
+        }
+        return search2(nums,target,left,right);
+    }
+
     public static void main(String[] args) {
         int[] nums = {4,5,6,7,0,1,2};
         System.out.println(search(nums,3));
