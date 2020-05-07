@@ -3,7 +3,7 @@ package com.frank.study.algorithm;
 /**
  * @ClassName: CircleQueue
  * @Description: TODO
- * @Author: 菜包子（孙中伟）
+ * @Author: frank
  * @Date: 2020/4/28 20:39
  * @Version: 1.0
  */

@@ -5,7 +5,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * @ClassName: LinkQueue
  * @Description: TODO
- * @Author: 菜包子（孙中伟）
+ * @Author: frank
  * @Date: 2020/4/28 20:42
  * @Version: 1.0
  */

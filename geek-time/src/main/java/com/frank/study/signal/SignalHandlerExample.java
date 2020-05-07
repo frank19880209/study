@@ -6,7 +6,7 @@ import sun.misc.SignalHandler;
 /**
  * @ClassName: SignalHandlerExample
  * @Description: 关于信号的描述，可以见：https://blog.csdn.net/joe_007/article/details/8540663
- * @Author: 菜包子（孙中伟）
+ * @Author: frank
  * @Date: 2020/4/23 9:32
  * @Version: 1.0
  */

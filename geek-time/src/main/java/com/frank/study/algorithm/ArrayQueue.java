@@ -5,7 +5,7 @@ import java.util.Arrays;
 /**
  * @ClassName: ArrayQueue
  * @Description: 用数组实现的队列叫作顺序队列
- * @Author: 菜包子（孙中伟）
+ * @Author: frank
  * @Date: 2020/4/28 20:06
  * @Version: 1.0
  */

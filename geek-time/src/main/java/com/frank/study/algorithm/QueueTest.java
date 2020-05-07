@@ -3,7 +3,7 @@ package com.frank.study.algorithm;
 /**
  * @ClassName: QueueTest
  * @Description: TODO
- * @Author: 菜包子（孙中伟）
+ * @Author: frank
  * @Date: 2020/4/28 21:11
  * @Version: 1.0
  */
